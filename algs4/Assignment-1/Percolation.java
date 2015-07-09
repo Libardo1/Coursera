@@ -31,10 +31,24 @@ public class Percolation {
        
        
        
-   public boolean isOpen(int i, int j)     // is site (row i, column j) open?
+   public boolean isOpen(int i, int j) // is site (row i, column j) open?
+            {
+        if (status[location(i,j)] == 1){
+           return false;
+        }
+        else{
+            return true;
+        }
+            
+    }
+            
    public boolean isFull(int i, int j)     // is site (row i, column j) full?
+            return matrix.connected(width*width, location(i,j))
+            
+            
    public boolean percolates()             // does the system percolate?
-
+            return matrix.connected(width*width, width*width+1)
+            
    public static void main(String[] args ){
        
     
