@@ -79,12 +79,12 @@ public class Percolation {
     }
     
     public boolean isFull(int i, int j){     // is site (row i, column j) full?
-        return matrix.connected(width*width, location(i,j));
+        return matrix.connected(UPPER_VIRTUAL, location(i,j));
     }
     
     
     public boolean percolates(){            // does the system percolate?
-        return matrix.connected(width*width, width*width+1);
+        return matrix.connected(UPPER_VIRTUAL, BOTTOM_VIRTUAL);
     }
     
     public static void main(String[] args ){
