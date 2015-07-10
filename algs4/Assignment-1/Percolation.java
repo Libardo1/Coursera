@@ -8,7 +8,7 @@ public class Percolation {
     public Percolation(int N){
         int n = N * N + 2;
         width = N;
-        matrix = WeightedQuickUnionUF(n);
+        matrix = new WeightedQuickUnionUF(n);
         states = new int[n];
         for(int i = 0; i< N*N; i++){
               states[i] = 0;
@@ -22,7 +22,7 @@ public class Percolation {
         return (((i-1)*width) + (j-1) );
     }
     public void open(int i, int j){// open site (row i, column j) if it is not open already
-    cell = location(i,j); 
+    int cell = location(i,j); 
    if (states[cell]  == 1){
        return;
    }
@@ -34,14 +34,14 @@ public class Percolation {
     }
     //top row
     else{
-        matrix.uniion(width*width,cell);
+        matrix.union(width*width,cell);
     }
     // not last
     if (i != width){
         matrix.union(location(i+1,j), cell);
     }
     if(i == width){
-       matrix.union(((location(width*width)+1),j),cell);
+       matrix.union(location(width*width+1,j),cell);
     }
     
     //left corner
