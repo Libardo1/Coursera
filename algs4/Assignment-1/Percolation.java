@@ -6,6 +6,10 @@ public class Percolation {
     public int width;
     static int OPEN = 1;
     static int BLOCK = 0;
+    int TOP;
+    int BOTTOM;
+    int UPPER_VIRTUAL;
+    int BOTTOM_VIRTUAL;
     
     public Percolation(int N){
         int n = N * N + 2;
@@ -17,6 +21,10 @@ public class Percolation {
         }
         states[N*N] = OPEN;
         states[N*N+1] = OPEN;
+        TOP=1;
+        BOTTOM=N; 
+        UPPER_VIRTUAL = N*N;
+        BOTTOM_VIRTUAL = N*N+1;
         
     }// create N-by-N grid, with all sites blocked
     
@@ -31,20 +39,20 @@ public class Percolation {
         states[cell] = OPEN;
         
         //not top
-        if (i ==1) {
-            matrix.union(width*width,cell);
+        if (i == TOP) {
+            matrix.union(UPPER_VIRTUAL,cell);
         }
         
-        else if((i != 1) && isOpen(i-1,j)){
+        else if((i != TOP) && isOpen(i-1,j)){
             matrix.union(location(i-1,j), cell);
         }
         //top row
         
         // not last
-        if(i==width){
-            matrix.union(width*width+1,cell);
+        if(i==BOTTOM){
+            matrix.union(BOTTOM_VIRTUAL,cell);
         }
-        else if ((i != width)&& isOpen(i+1,j)){
+        else if ((i != BOTTOM)&& isOpen(i+1,j)){
             matrix.union(location(i+1,j), cell);
         }
         
