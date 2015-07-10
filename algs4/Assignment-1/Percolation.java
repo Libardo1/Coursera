@@ -29,9 +29,11 @@ public class Percolation {
     }// create N-by-N grid, with all sites blocked
     
     public int location(int i, int j){
+        if (i <= 0 || i > width) throw new IndexOutOfBoundsException("row index i out of bounds");
         return (((i-1)*width) + (j-1) );
     }
     public void open(int i, int j){// open site (row i, column j) if it is not open already
+        if (i <= 0 || i > width) throw new IndexOutOfBoundsException("row index i out of bounds");
         int cell = location(i,j); 
         if (states[cell]  == OPEN){
             return;
@@ -69,6 +71,7 @@ public class Percolation {
         
     }
     public boolean isOpen(int i, int j){
+        if (i <= 0 || i > width) throw new IndexOutOfBoundsException("row index i out of bounds");
         if (states[location(i,j)] == OPEN){
             return true;
         }
@@ -79,6 +82,7 @@ public class Percolation {
     }
     
     public boolean isFull(int i, int j){     // is site (row i, column j) full?
+        if (i <= 0 || i > width) throw new IndexOutOfBoundsException("row index i out of bounds");
         return matrix.connected(UPPER_VIRTUAL, location(i,j));
     }
     
