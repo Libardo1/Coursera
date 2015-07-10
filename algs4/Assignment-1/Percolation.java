@@ -4,7 +4,8 @@ public class Percolation {
     public WeightedQuickUnionUF matrix;
     public int [] states; 
     public int width;
-    
+    static int OPEN = 1;
+    static int BLOCK = 0;
     
     public Percolation(int N){
         int n = N * N + 2;
@@ -12,10 +13,10 @@ public class Percolation {
         matrix = new WeightedQuickUnionUF(n);
         states = new int[n];
         for(int i = 0; i< N*N; i++){
-              states[i] = 0;
+              states[i] = BLOCK;
             }
-        states[N*N] = 1;
-        states[N*N+1] = 1;
+        states[N*N] = OPEN;
+        states[N*N+1] = OPEN;
       
     }// create N-by-N grid, with all sites blocked
     
@@ -24,10 +25,10 @@ public class Percolation {
     }
     public void open(int i, int j){// open site (row i, column j) if it is not open already
     int cell = location(i,j); 
-   if (states[cell]  == 1){
+   if (states[cell]  == OPEN){
        return;
    }
-    states[cell] = 1;
+    states[cell] = OPEN;
     
    //not top
     if (i ==1) {
@@ -60,7 +61,7 @@ public class Percolation {
 
 }
    public boolean isOpen(int i, int j){
-        if (states[location(i,j)] == 1){
+        if (states[location(i,j)] == OPEN){
            return true;
         }
         else{
