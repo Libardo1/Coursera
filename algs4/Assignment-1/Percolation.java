@@ -41,7 +41,7 @@ public class Percolation {
         matrix.union(location(i+1,j), cell);
     }
     if(i == width){
-       matrix.union(location(width*width+1,j),cell);
+       matrix.union(width*width+1,cell);
     }
     
     //left corner
