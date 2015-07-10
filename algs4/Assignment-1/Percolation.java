@@ -29,7 +29,7 @@ public class Percolation {
     states[cell] = 1;
     
    //not top
-        if(i != 1){
+        if((i != 1) & isOpen(i-1,j)){
         matrix.union(location(i-1,j), cell);
     }
     //top row
@@ -37,7 +37,7 @@ public class Percolation {
         matrix.union(width*width,cell);
     }
     // not last
-    if (i != width){
+    if ((i != width) & (isOpen(i+1,j))){
         matrix.union(location(i+1,j), cell);
     }
     if(i == width){
@@ -45,12 +45,12 @@ public class Percolation {
     }
     
     //left corner
-    if (j != 1){
+    if ((j != 1) && (isOpen(i,j-1))){
         matrix.union(location(i, j-1),cell);
     }
     
     //right corner
-    if (j != width){
+    if ((j != width) && (isOpen(i,j+1))){
                 matrix.union(location(i, j+1),cell);
     }
 
