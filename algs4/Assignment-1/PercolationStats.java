@@ -17,7 +17,7 @@ public class PercolationStats {
                     round++;
                 }      
             }
-            percolation_threshhold[i]  = (double)round/N*N; 
+            percolation_threshhold[i]  = ((double)round)/(N*N); 
         }
     }
     public double mean()// sample mean of percolation threshold
@@ -40,9 +40,7 @@ public class PercolationStats {
     
     public static void main(String[] args){
         PercolationStats ps=new PercolationStats(200,100);
-        for(int i= 0 ; i < ps.percolation_threshhold.length; i++){
-          StdOut.print(ps.percolation_threshhold[i]);
-        }
+        
         StdOut.print("mean = "+ps.mean()+"\n");
         StdOut.print("std dev = "+ps.stddev()+"\n");
         StdOut.print("95% confidence interval = "+ps.confidenceLo()+", "+ps.confidenceHi());
