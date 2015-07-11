@@ -5,14 +5,12 @@ public class PercolationStats {
     {
         if((N <= 0) || (T <= 0)) throw new IllegalArgumentException();
         percolation_threshhold =  new double[T];
-            
-            
-            for(int i = 0; i< T; i++){
+        for(int i = 0; i< T; i++){
             int round = 0;
             Percolation perc = new Percolation(N);
             while(!perc.percolates()){
-                int row = StdRandom.uniform(1,N);
-                int column = StdRandom.uniform(1,N);
+                int row = StdRandom.uniform(1,N+1);
+                int column = StdRandom.uniform(1,N+1);
                 
                 if(!perc.isOpen(row,column)){
                     perc.open(row,column);
@@ -33,17 +31,17 @@ public class PercolationStats {
     }
     public double confidenceLo()// low  endpoint of 95% confidence interval
     {
-        return mean() - 1.96*stddev()/Math.sqrt(percolation_threshhold.length);
+        return mean() - ((1.96*stddev())/Math.sqrt(percolation_threshhold.length));
     }
     public double confidenceHi()     
     {
-        return mean() - 1.96*stddev()/Math.sqrt(percolation_threshhold.length);
+        return mean() + ((1.96*stddev())/Math.sqrt(percolation_threshhold.length));
     }// high endpoint of 95% confidence interval
-        
+    
     public static void main(String[] args){
-       PercolationStats ps=new PercolationStats(20,10); 
-       StdOut.print("mean = "+ps.mean()+"\n");
-       StdOut.print("std dev = "+ps.stddev()+"\n");
-       StdOut.print("95% confidence interval = "+ps.confidenceLo()+", "+ps.confidenceHi());
+        PercolationStats ps=new PercolationStats(200,100); 
+        StdOut.print("mean = "+ps.mean()+"\n");
+        StdOut.print("std dev = "+ps.stddev()+"\n");
+        StdOut.print("95% confidence interval = "+ps.confidenceLo()+", "+ps.confidenceHi());
     }
 }
