@@ -39,7 +39,10 @@ public class PercolationStats {
     }// high endpoint of 95% confidence interval
     
     public static void main(String[] args){
-        PercolationStats ps=new PercolationStats(200,100); 
+        PercolationStats ps=new PercolationStats(200,100);
+        for(int i= 0 ; i < ps.percolation_threshhold.length; i++){
+          StdOut.print(ps.percolation_threshhold[i]);
+        }
         StdOut.print("mean = "+ps.mean()+"\n");
         StdOut.print("std dev = "+ps.stddev()+"\n");
         StdOut.print("95% confidence interval = "+ps.confidenceLo()+", "+ps.confidenceHi());
