@@ -16,7 +16,7 @@ public class Deque<Item> implements Iterable<Item> {
    }
    public boolean isEmpty() {
        // is the deque empty?
-     if ((first == null) and (last == null)){
+     if ((first == null) && (last == null)){
      return true;
      }
      else{
@@ -42,19 +42,20 @@ public class Deque<Item> implements Iterable<Item> {
         item.next = temp;
         
       }
-     {
+   }
+     
        public void addLast(Item item){
          if (item == null) throw new java.util.NoSuchElementException();
          // add the item to the end
-         if (last == null and first == null){
+         if ((last == null) && (first == null)){
            first = item;
            item.next = null;
            last = first;
          }
          else{
          last.next = item;
-         item.next = null
-         last = item
+         item.next = null;
+         last = item;
          }
        }
        public Item removeFirst() {               // remove and return the item from the front
