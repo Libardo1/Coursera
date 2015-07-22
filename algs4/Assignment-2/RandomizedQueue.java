@@ -42,16 +42,35 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    {
        if (size == 0) throw new java.util.NoSuchElementException();
        random_n = StdRandom.uniform(size)+1;
+       if (n == 1) {
+           first = null;
+           
+       }
+           
        Node temp = first;
        while(random_n > 1){
            temp = temp.next;
+           --random_n
+       }
+       if (temp.next != null) && ((temp.next).next != null){
+       temp.next = (temp.next).next;
+       }
+       else if ((temp.next).next) == null){
+           temp.next = null;
        }
        
-       
+       ---n;
        
    }
    public Item sample()           {
-       // return (but do not remove) a random item
+       random_n = StdRandom.uniform(size)+1;
+       temp = first;
+       while(random_n > 0){
+           temp = temp.next;
+           --random_n
+       }
+
+       return temp.item;// return (but do not remove) a random item
    }
    public Iterator<Item> iterator()         // return an independent iterator over items in random order
    {
