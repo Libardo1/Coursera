@@ -62,7 +62,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
        ---n;
        
    }
-   public Item sample()           {
+   public Item sample()           { // return (but do not remove) a random item
        random_n = StdRandom.uniform(size)+1;
        temp = first;
        while(random_n > 0){
@@ -70,10 +70,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
            --random_n
        }
 
-       return temp.item;// return (but do not remove) a random item
+       return temp.item;
    }
    public Iterator<Item> iterator()         // return an independent iterator over items in random order
    {
+     
        
    }
    public static void main(String[] args)   // unit testing
