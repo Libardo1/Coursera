@@ -29,10 +29,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    public void enqueue(Item item)           // add the item
    {
        if (item == null) throw new java.lang.NullPointerException();
+       ++size;
        if (size == arr.length){
          resize(size*2);
        }
-       arr[++size] = item;
+       arr[size] = item;
    }
    
    public Item dequeue() {
@@ -44,6 +45,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
        if (size > 0 && size ==arr.length/4) {
            resize((arr.length)/2);
        }
+       return item;
    }
        
        
@@ -56,8 +58,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
        return arr[random_n];
    }
    
-   private class RandomizedQueueIterator<Item> implements Iterator<Item>{
-        private Item item_temp[];
+   private class RandomizedQueueIterator implements Iterator<Item>{
+        private Item[] item_temp;
         private int count ;
         
         public RandomizedQueueIterator() {
@@ -83,17 +85,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         public void remove() {
             throw new UnsupportedOperationException();
         }
-    
-
-     
-     
-   
-   public Iterator<Item> iterator()         // return an independent iterator over items in random order
-   {
-     new RandomizedQueueIterator<Item>();
-       
-   }
 }
+    public Iterator<Item> iterator()         // return an independent iterator over items in random order
+   {
+     return new RandomizedQueueIterator();
+   }
   
 public static void main(String[] args)  { // unit testing
      }
