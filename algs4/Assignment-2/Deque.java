@@ -45,8 +45,7 @@ public class Deque<Item> implements Iterable<Item> {
    public void addFirst(Item item) {
      if (item == null)  throw new java.util.NoSuchElementException();
       Node new_node = create_node(item);
-       if (first == null){
-           assert(last == null);
+      if isEmpty(){
         first = new_node;
         last = first;
         
@@ -68,8 +67,7 @@ public class Deque<Item> implements Iterable<Item> {
          else{
          // add the item to the end
          Node new_node = create_node(item);
-         if (first == null){
-           assert(last == null);
+         if isEmpty(){
            first = new_node;
            last = first;
          }
