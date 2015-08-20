@@ -21,7 +21,8 @@ public class Deque<Item> implements Iterable<Item> {
    }
    public boolean isEmpty() {
        // is the deque empty?
-     if ((first == null) && (last == null)){
+       if (first == null){
+           assert(last == null);
      return true;
      }
      else{
@@ -34,13 +35,18 @@ public class Deque<Item> implements Iterable<Item> {
    }
 
      // return the number of items on the deque
-   public void addFirst(Item item) {
-     if (item == null)  throw new java.util.NoSuchElementException();
-     Node new_node = new Node();
+   private Node create_node(Item item){
+      Node new_node = new Node();
       new_node.item = item;
       new_node.next = null;
       new_node.prev = null;
-      if ((first == null)&& (first == null)){
+      return new_node;
+   }
+   public void addFirst(Item item) {
+     if (item == null)  throw new java.util.NoSuchElementException();
+      Node new_node = create_node(item);
+       if (first == null){
+           assert(last == null);
         first = new_node;
         last = first;
         
@@ -61,11 +67,9 @@ public class Deque<Item> implements Iterable<Item> {
          if (item == null) throw new java.util.NoSuchElementException();
          else{
          // add the item to the end
-         Node new_node = new Node();
-         new_node.next = null;
-         new_node.prev = null;
-         new_node.item = item;
-         if ((last == null) && (first == null)){
+         Node new_node = create_node(item);
+         if (first == null){
+           assert(last == null);
            first = new_node;
            last = first;
          }
