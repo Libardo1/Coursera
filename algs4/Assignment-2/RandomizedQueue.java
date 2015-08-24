@@ -2,11 +2,11 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private Item arr[];
+    private Item [ ] arr;
     private int size;
     
-    public RandomizedQueue(){
-        arr = (Item [])new Object[2];
+    public RandomizedQueue() {
+        arr = (Item []) new Object[2];
         size = 0;
     }
     
@@ -15,12 +15,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return (size == 0);
 // is the queue empty?
     }
-    public int size()   {return size;}
+    public int size()   { return size; }
     
     
-    private void resize(int len){
-        Item temp[] = (Item [])new Object[len];
-        for(int i = 0; i < size; i++) {
+    private void resize(int len) {
+        assert (len > size);
+        Item [] temp = (Item []) new Object[len];
+        for (int i = 0; i < size; i++) {
             temp[i] = arr[i];
         }
         arr = temp;
@@ -29,27 +30,23 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item)           // add the item
     {
         if (item == null) throw new java.lang.NullPointerException();
-        ++size;
-        if (size == arr.length){
+        if (size == arr.length) {
             resize(size*2);
         }
         arr[size] = item;
+        System.out.print("enqued: ");
+        System.out.println(arr[size]);
+        ++size;
     }
     
     public Item dequeue() {
         if (size == 0) throw new java.util.NoSuchElementException();
-        StdRandom.shuffle(arr);
-        Item item = arr[size -1];
+        StdRandom.shuffle(arr, 0, size- 1);
+        assert (size > 0);
+        Item item = arr[size -1 ];
         arr[size -1] = null;
         size--;
-        
-        
-        
-        
-        
-        
-        
-        if (size > 0 && size ==arr.length/4) {
+        if (size > 0 && size == arr.length/4) {
             resize((arr.length)/2);
         }
         return item;
@@ -61,20 +58,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (isEmpty()) {
             throw new NoSuchElementException();
         } 
-        int random_n = StdRandom.uniform(size);
-        return arr[random_n];
+        int randomnumber = StdRandom.uniform(size);
+        return arr[randomnumber];
     }
     
-    private class RandomizedQueueIterator implements Iterator<Item>{
-        private Item[] item_temp;
-        private int count ;
+    private class RandomizedQueueIterator implements Iterator<Item> {
+        private Item[] itemTemp;
+        private int count;
         
         public RandomizedQueueIterator() {
-            item_temp = (Item [])new Object[size];
-            for(int i = 0; i < size; i++) {
-                item_temp[i] = arr[i];
+            itemTemp = (Item []) new Object[size];
+            for (int i = 0; i < size; i++) {
+                itemTemp[i] = arr[i];
             }
-            StdRandom.shuffle(item_temp, 0, size- 1);
+            StdRandom.shuffle(itemTemp, 0, size- 1);
             count = size;
         }
         
@@ -83,8 +80,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         
         public Item next() {
-            if(this.hasNext()) {
-                return item_temp[count--];
+            if (this.hasNext()) {
+                return itemTemp[count--];
             }
             throw new NoSuchElementException();
         }
@@ -93,7 +90,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new UnsupportedOperationException();
         }
     }
-    public Iterator<Item> iterator()         // return an independent iterator over items in random order
+    public Iterator<Item> iterator()         
+// return an independent iterator over items in random order
     {
         return new RandomizedQueueIterator();
     }

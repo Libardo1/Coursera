@@ -21,11 +21,11 @@ public class Deque<Item> implements Iterable<Item> {
     }
     public boolean isEmpty() {
         // is the deque empty?
-        if (first == null){
-            assert(last == null);
+        if (first == null) {
+            assert (last == null);
             return true;
         }
-        else{
+        else {
             return false;
         }
         
@@ -35,62 +35,63 @@ public class Deque<Item> implements Iterable<Item> {
     }
     
     // return the number of items on the deque
-    private Node create_node(Item item){
-        Node new_node = new Node();
-        new_node.item = item;
-        new_node.next = null;
-        new_node.prev = null;
-        return new_node;
+    private Node createnode(Item item) {
+        Node newnode = new Node();
+        newnode.item = item;
+        newnode.next = null;
+        newnode.prev = null;
+        return newnode;
     }
     public void addFirst(Item item) {
         if (item == null)  throw new java.util.NoSuchElementException();
-        Node new_node = create_node(item);
-        if (isEmpty() == true){
-            first = new_node;
+        Node newnode = createnode(item);
+        if (isEmpty()) {
+            first = newnode;
             last = first;
             
         }
         // add the item to the front
-        else{
+        else {
             Node temp = first;
-            first = new_node;
-            new_node.next = temp;
-            temp.prev = new_node;
+            first = newnode;
+            newnode.next = temp;
+            temp.prev = newnode;
             
         }
         ++size;
     }
     
     
-    public void addLast(Item item){
+    public void addLast(Item item) {
         if (item == null) throw new java.util.NoSuchElementException();
-        else{
+        else {
             // add the item to the end
-            Node new_node = create_node(item);
-            if (isEmpty() == true){
-                first = new_node;
+            Node newnode = createnode(item);
+            if (isEmpty()) {
+                first = newnode;
                 last = first;
             }
-            else{
-                new_node.prev = last;
-                last.next = new_node;
-                last = new_node;
+            else {
+                newnode.prev = last;
+                last.next = newnode;
+                last = newnode;
             }
             ++size;
         }
     }
     
     
-    public Item removeFirst() {               // remove and return the item from the front
+    public Item removeFirst() {              
+        // remove and return the item from the front
         if (isEmpty()) throw new java.lang.UnsupportedOperationException();
         Node temp = first;
         
-        if (first.next != null){
+        if (first.next != null) {
             
             first = first.next;
             first.prev = null;
         }
-        else{
+        else {
             //temp = first;
             first = null;
             last = null;
@@ -104,12 +105,12 @@ public class Deque<Item> implements Iterable<Item> {
         if (isEmpty()) throw new java.lang.UnsupportedOperationException();
         Node temp;
         temp = last;
-        if (last.prev == null){
+        if (last.prev == null) {
             //temp = last;  
             last = null;
             first = null;
         }
-        else{
+        else {
             //temp = last;
             last = last.prev;
             last.next = null;
@@ -148,12 +149,18 @@ public class Deque<Item> implements Iterable<Item> {
     
     public static void main(String[] args) {
         
-        Deque<Integer> que = new Deque<Integer>();
-        que.addFirst(2);
-        que.addFirst(1);
-        que.addLast(20);
-        int x = que.removeLast();
+        Deque<String> que = new Deque<String>();
+        while (!StdIn.isEmpty())
+        {
+            String s = new String(StdIn.readString());
+            que.addFirst(s);
+            System.out.println("got: \"" + s + "\"");
+        }
+        while (!que.isEmpty()) {
+            String  x = que.removeLast();
         System.out.println(x);
+        }
+     
         
 // unit testing
     }
