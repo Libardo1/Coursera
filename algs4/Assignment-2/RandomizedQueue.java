@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item [ ] arr;
@@ -34,16 +35,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             resize(size*2);
         }
         arr[size] = item;
-        System.out.print("enqued: ");
-        System.out.println(arr[size]);
         ++size;
     }
     
+    private void swap(int i, int j) {
+        Item temp  = (Item) arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
     public Item dequeue() {
         if (size == 0) throw new java.util.NoSuchElementException();
-        StdRandom.shuffle(arr, 0, size- 1);
+        //StdRandom.shuffle(arr, 0, size- 1);
+        int randomN = StdRandom.uniform(size);
         assert (size > 0);
-        Item item = arr[size -1 ];
+        Item item = arr[randomN];
+        swap(randomN, size-1);
         arr[size -1] = null;
         size--;
         if (size > 0 && size == arr.length/4) {
@@ -71,17 +78,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             for (int i = 0; i < size; i++) {
                 itemTemp[i] = arr[i];
             }
-            StdRandom.shuffle(itemTemp, 0, size- 1);
+            if (size > 0) {
+               StdRandom.shuffle(itemTemp, 0, size - 1);
+            }
             count = size;
+            
         }
         
         public boolean hasNext() {
-            return count >= 0;
+            return count > 0;
         }
         
         public Item next() {
             if (this.hasNext()) {
-                return itemTemp[count--];
+                return itemTemp[--count];
             }
             throw new NoSuchElementException();
         }
@@ -96,6 +106,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return new RandomizedQueueIterator();
     }
     
-    public static void main(String[] args)  { // unit testing
+    public static void main(String[] args)  {
+        // unit testing
+        /*RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
+        rq.enqueue(1);
+        rq.enqueue(2);
+        rq.enqueue(3);
+        rq.enqueue(4);
+        Iterator i = rq.iterator();
+        while(i.hasNext()){
+            System.out.println(i.next());
+        }*/
+        
     }
 }

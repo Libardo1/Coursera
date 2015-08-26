@@ -43,7 +43,7 @@ public class Deque<Item> implements Iterable<Item> {
         return newnode;
     }
     public void addFirst(Item item) {
-        if (item == null)  throw new java.util.NoSuchElementException();
+        if (item == null)  throw new java.lang.NullPointerException();
         Node newnode = createnode(item);
         if (isEmpty()) {
             first = newnode;
@@ -63,7 +63,7 @@ public class Deque<Item> implements Iterable<Item> {
     
     
     public void addLast(Item item) {
-        if (item == null) throw new java.util.NoSuchElementException();
+        if (item == null) throw new java.lang.NullPointerException();
         else {
             // add the item to the end
             Node newnode = createnode(item);
@@ -83,7 +83,7 @@ public class Deque<Item> implements Iterable<Item> {
     
     public Item removeFirst() {              
         // remove and return the item from the front
-        if (isEmpty()) throw new java.lang.UnsupportedOperationException();
+        if (isEmpty()) throw new java.util.NoSuchElementException();
         Node temp = first;
         
         if (first.next != null) {
@@ -102,7 +102,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
     public Item removeLast()  {
         // remove and return the item from the end
-        if (isEmpty()) throw new java.lang.UnsupportedOperationException();
+        if (isEmpty()) throw new java.util.NoSuchElementException();
         Node temp;
         temp = last;
         if (last.prev == null) {
@@ -149,19 +149,7 @@ public class Deque<Item> implements Iterable<Item> {
     
     public static void main(String[] args) {
         
-        Deque<String> que = new Deque<String>();
-        while (!StdIn.isEmpty())
-        {
-            String s = new String(StdIn.readString());
-            que.addFirst(s);
-            System.out.println("got: \"" + s + "\"");
-        }
-        while (!que.isEmpty()) {
-            String  x = que.removeLast();
-        System.out.println(x);
-        }
-     
-        
+      
 // unit testing
     }
 }

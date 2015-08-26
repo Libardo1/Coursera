@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.StdIn;
+
 
 public class Subset {
     public static void main(String[] args) {
@@ -6,7 +8,7 @@ public class Subset {
         int k = Integer.parseInt(args[0]);
         while (!StdIn.isEmpty())
         {
-            String s = new String(StdIn.readString());
+            String s = StdIn.readString();
             rq.enqueue(s);
         }
         
