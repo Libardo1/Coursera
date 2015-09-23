@@ -1,5 +1,7 @@
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
@@ -9,10 +11,15 @@ public class FastCollinearPoints {
     private LineSegment[] linesegments;
     
      public FastCollinearPoints(Point[] points)  {
-        Arrays.sort(points);
+        //Arrays.sort(points);
         ArrayList<LineSegment> temp =  new ArrayList<LineSegment>();
-        
-        //System.arraycopy(points, 0, slopeOrderedPoints, 0, points.length);
+        Set<Double> prevSlopes = new HashSet<Double>();
+        if (points == null) throw new java.lang.NullPointerException();
+        Point[] sortedPoints = new Point[points.length];
+        System.arraycopy(points, 0, sortedPoints, 0, sortedPoints.length);
+        Arrays.sort(sortedPoints);
+        points = sortedPoints;
+        if (checkRepeats(points)) throw new java.lang.IllegalArgumentException();
         
         for (int i = 0; i < points.length -1; i++) {
             Point p = points[i];
@@ -35,10 +42,14 @@ public class FastCollinearPoints {
                 }
                 else {
                     if (countPoint >= 3) {
-                        LineSegment lineSegment = createSegement(
-                                 slopeOrderedPoints, p, startIndex, countPoint);
-                        temp.add(lineSegment);
-                        count++;
+                        if (!prevSlopes.contains((Double)lastSlope)) {
+                            prevSlopes.add((Double)lastSlope);
+                            LineSegment lineSegment = createSegement(
+                            slopeOrderedPoints, p, startIndex, countPoint);
+                            temp.add(lineSegment);
+                            count++;
+                        }
+                        
                     }
                     startIndex = index;
                     lastSlope =  currentSlope;
@@ -54,6 +65,22 @@ public class FastCollinearPoints {
         }
 // finds all line segments containing 4 or more points
         linesegments = temp.toArray(new LineSegment[temp.size()]);
+    }
+    
+     
+    private boolean checkRepeats(Point[] temp) {
+        for (int i = 0; i < temp.length; i++) {
+            if ((i != temp.length - 1) 
+               && (temp[i].compareTo(temp[i + 1])) == 0)
+            {
+                return true;
+            }
+            else if (i == temp.length -1) {
+                return false;
+            }
+            
+        }
+        return false;
     }
     
     private LineSegment createSegement(Point[] array, 
@@ -81,8 +108,9 @@ public class FastCollinearPoints {
     }
     
     public LineSegment[] segments() {
-    // the line segments
-        return linesegments;
+    LineSegment[] lineSegmentsCopy = new LineSegment[linesegments.length];
+    System.arraycopy(linesegments, 0, lineSegmentsCopy, 0, linesegments.length);
+    return lineSegmentsCopy;
         
         
     }
