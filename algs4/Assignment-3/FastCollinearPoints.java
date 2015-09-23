@@ -13,7 +13,7 @@ public class FastCollinearPoints {
      public FastCollinearPoints(Point[] points)  {
         //Arrays.sort(points);
         ArrayList<LineSegment> temp =  new ArrayList<LineSegment>();
-        Set<Double> prevSlopes = new HashSet<Double>();
+        
         if (points == null) throw new java.lang.NullPointerException();
         Point[] sortedPoints = new Point[points.length];
         System.arraycopy(points, 0, sortedPoints, 0, sortedPoints.length);
@@ -23,6 +23,11 @@ public class FastCollinearPoints {
         
         for (int i = 0; i < points.length -1; i++) {
             Point p = points[i];
+            Set<Double> prevSlopes = new HashSet<Double>();
+            for (int k = i - 1; k >= 0; k--) {
+                double slope = points[k].slopeTo(p);
+                prevSlopes.add((Double)slope);
+            }
             Point[] slopeOrderedPoints = new Point[points.length -i -1];
             System.arraycopy(
                     points, i + 1, slopeOrderedPoints, 0, points.length - i - 1);
@@ -43,7 +48,6 @@ public class FastCollinearPoints {
                 else {
                     if (countPoint >= 3) {
                         if (!prevSlopes.contains((Double)lastSlope)) {
-                            prevSlopes.add((Double)lastSlope);
                             LineSegment lineSegment = createSegement(
                             slopeOrderedPoints, p, startIndex, countPoint);
                             temp.add(lineSegment);
@@ -62,6 +66,7 @@ public class FastCollinearPoints {
                     temp.add(lineSegment);
                     count++;
                 }
+            
         }
 // finds all line segments containing 4 or more points
         linesegments = temp.toArray(new LineSegment[temp.size()]);
