@@ -10,15 +10,14 @@ public class FastCollinearPoints {
     private int count;
     private LineSegment[] linesegments;
     
-     public FastCollinearPoints(Point[] points)  {
+     public FastCollinearPoints(Point[] pointsArray)  {
         //Arrays.sort(points);
         ArrayList<LineSegment> temp =  new ArrayList<LineSegment>();
-        
-        if (points == null) throw new java.lang.NullPointerException();
-        Point[] sortedPoints = new Point[points.length];
-        System.arraycopy(points, 0, sortedPoints, 0, sortedPoints.length);
+        if (pointsArray == null) throw new java.lang.NullPointerException();
+        Point[] sortedPoints = new Point[pointsArray.length];
+        System.arraycopy(pointsArray, 0, sortedPoints, 0, sortedPoints.length);
         Arrays.sort(sortedPoints);
-        points = sortedPoints;
+        Point[] points = sortedPoints;
         if (checkRepeats(points)) throw new java.lang.IllegalArgumentException();
         
         for (int i = 0; i < points.length -1; i++) {
@@ -26,7 +25,7 @@ public class FastCollinearPoints {
             Set<Double> prevSlopes = new HashSet<Double>();
             for (int k = i - 1; k >= 0; k--) {
                 double slope = points[k].slopeTo(p);
-                prevSlopes.add((Double)slope);
+                prevSlopes.add((Double) slope);
             }
             Point[] slopeOrderedPoints = new Point[points.length -i -1];
             System.arraycopy(
@@ -43,11 +42,14 @@ public class FastCollinearPoints {
                 
                 if (Double.compare(currentSlope, lastSlope) == 0) { 
                     countPoint++;
-                    //System.out.println("slope same   " +  countPoint );               
+                           
                 }
                 else {
                     if (countPoint >= 3) {
-                        if (!prevSlopes.contains((Double)lastSlope)) {
+                      
+                        
+                        if (!prevSlopes.contains((Double) lastSlope)) {
+                            
                             LineSegment lineSegment = createSegement(
                             slopeOrderedPoints, p, startIndex, countPoint);
                             temp.add(lineSegment);
@@ -61,11 +63,13 @@ public class FastCollinearPoints {
                 }
             }
             if (countPoint >= 3) {
+                if (!prevSlopes.contains((Double) lastSlope)) {
                     LineSegment lineSegment = createSegement(
                                  slopeOrderedPoints, p, startIndex, countPoint);
                     temp.add(lineSegment);
                     count++;
                 }
+            }
             
         }
 // finds all line segments containing 4 or more points
