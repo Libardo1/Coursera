@@ -44,7 +44,21 @@ public class Board {
        return count;
     }
     public int manhattan() {
+        int sum = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+              int val = (i * N) + j + 1;
+              if (board[i][j] != val){
+                 int r = val/N + 1;
+                 int c = val - r*N;
+                 sum += abs( abs(i-r) + abs(j -c))
+              }
+            }
+            }
+        return sum;
    // sum of Manhattan distances between blocks and goal
+        
+    
     }
     public boolean isGoal()            {
       // is this board the goal board?
@@ -52,6 +66,7 @@ public class Board {
             for (int j = 0; j < N; j++) {
               int val = (i * N) + j + 1;
               if (board[i][j] != val){
+                  
                  return false;
               }
             }
@@ -87,10 +102,13 @@ public class Board {
     }
     
       
-    public Iterable<Board> neighbors()     // all neighboring boards
+    public Iterable<Board> neighbors()  
+    {
+        // all neighboring boards
       
+    }
      public String toString(){
-      string output = ""
+      string output = "";
       // string representation of this board (in the output format specified below)
        for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -100,8 +118,12 @@ public class Board {
               output += "\n";
             }
             }
-       return true;
+
     } 
     
     public static void main(String[] args) // unit tests (not graded)
+        
+    {
+        
+    }
 }
