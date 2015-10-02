@@ -1,11 +1,18 @@
 import java.util.List;
+import edu.princeton.cs.algs4.MinPQ;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 public class Solver {
     private Board board;
     private Board twinb;
     private int move;
+    private MinPQ<Tuple> q ;
+    private MinPQ<Tuple> qTwin;
+    private boolean isSolutionCalled;
     
-    private class Tuple { 
+    private class Tuple implements  Comparator<Tuple> { 
         public int x; 
         public Board board; 
         public Tuple prev;
@@ -16,6 +23,9 @@ public class Solver {
             prev = prev;
             moves = moves;
   } 
+        public int compare(Tuple tup1, Tuple tup2) {
+              return Integer.compare((tup1.x), (tup2.x));
+    }
 } 
     
     public Solver(Board initial)     
@@ -23,26 +33,12 @@ public class Solver {
         board = initial;
         twinb = board.twin();
         move = 0;
-        
-        MinPQ<Tuple> q = new MinPQ<Tuple>( new Comparator<Tuple>() {
-              public int compare(Tuple tup1, Tuple tup2) {
-              return compare((tup1.x), (tup2.x));
-    }
-    });
-        MinPQ<Tuple> qTwin = new MinPQ<Tuple>( new Comparator<Tuple>() {
-              public int compare(Tuple tup1, Tuple tup2) {
-              return compare((tup1.x), (tup2.x));
-    }
-    });
-       
-       
-        
-    
-     
-        
+        isSolutionCalled = false;
+         q  = new MinPQ<Tuple>();
+         qTwin = new MinPQ<Tuple>(); 
     }
     public boolean isSolvable() {
-        if (this.solution == null) {
+        if (this.solution() == null) {
             return false;
         }
         else {
@@ -53,13 +49,13 @@ public class Solver {
        // is the initial board solvable?
     }
     public int moves() {
-        if (isSolvable()) {
+        if ( isSolutionCalled) {
             return this.move;
         }
-        else{
-            return -1;
+        else {
+            solution();
+            return this.move;
         }
-        
         // min number of moves to solve initial board; -1 if unsolvable
     }
     
@@ -76,35 +72,40 @@ public class Solver {
     public Iterable<Board> solution()  {
        // sequence of boards in a shortest solution; null if unsolvable
         int prior = board.hamming();
+        isSolutionCalled = true;
+        int priorTwin = twinb.hamming();
         Tuple t = new Tuple(prior, board, null, 0);
+        Tuple t2 = new Tuple(prior, twinb, null, 0);
         q.insert(t);
-        qTwin.insert(t);
-        flag = false;
+        qTwin.insert(t2);
+        boolean flag = false;
+        Iterable<Board> ans = null;
          // find a solution to the initial board (using the A* algorithm)
-        while ((!q.isEmpty() )  || (!qTwin.isEmpty())) {
+        while (true) {
             Tuple currTuple = q.min();
             Tuple currTupleTwin = qTwin.min();
             if ((currTupleTwin.board).isGoal()) {
-                Iterable<Board> ans = find(currTupleTwin);
-                flag = true;
-                //this.move = currentTupleTwin.prior;
+                 ans = find(currTupleTwin);
+                 flag = true;
+                this.move = -1;
                 break;
             }
             if ((currTuple.board).isGoal()){
-                Iterable<Board> ans = find(currTupleTwin);
-                this.move = currentTuple.prior;
+                 ans = find(currTuple);
+                 flag = false;
+                this.move = currTuple.x;
                 break;
             }
             for (Board b : (currTuple.board).neighbors()) {
                 if (!b.equals((currTuple.prev).board)) {
-                    prior = b.hamming() + ((currTuple.board).moves) ;
-                    q.insert(new Tuple(prior, b,currTuple, ((currTuple.board).moves) + 1));
+                    prior = b.hamming() + (currTuple.moves) ;
+                    q.insert(new Tuple(prior, b,currTuple, (currTuple.moves) + 1));
                 }
             }
             for (Board bTwin : (currTupleTwin.board).neighbors()) {
                 if (!bTwin.equals((currTupleTwin.prev).board)) {
-                    prior = bTwin.hamming() + ((currTupleTwin.board).moves) ;
-                    qTwin.insert(new Tuple(prior, bTwin, currTupleTwin, ((currTupleTwin.board).moves) + 1));
+                    prior = bTwin.hamming() + (currTupleTwin.moves) ;
+                    qTwin.insert(new Tuple(prior, bTwin, currTupleTwin, (currTupleTwin.moves) + 1));
                 }
             }
             
